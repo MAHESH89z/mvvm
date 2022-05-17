@@ -10,35 +10,32 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.logituit.mvvm.R
-import com.logituit.mvvm.models.QuoteList
 import com.logituit.mvvm.models.Result
-import okhttp3.internal.Internal.instance
-import org.jetbrains.annotations.NotNull
 
-class Myadapter(val context: Context,val movie:ArrayList<QuoteList>): RecyclerView.Adapter<Myadapter.MyViewHolder>() {
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-        val inflater: LayoutInflater = LayoutInflater.from(parent.context)
-        val view = inflater.inflate(R.layout.item_view, parent, false)
-        return MyViewHolder(view)
+class Myadapter(val context: Context, val MoviesList: List<Result>) :
+    RecyclerView.Adapter<Myadapter.MoviesViewHolder>() {
+    class MoviesViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val poster: ImageView = itemView.findViewById(R.id.image)
+        val name: TextView = itemView.findViewById(R.id.text)
+
     }
-    override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        // val IMAGE_BASE="https://image.tmdb.org/t/p/w500/"
-        val currentItem=movie[position]
-        holder.title.text=currentItem.results.toString()
-        holder.title.text=currentItem.page.toString()
-        holder.title.text=currentItem.total_pages.toString()
-        holder.title.text=currentItem.total_results.toString()
 
-        Glide.with(holder.image)
-            .load("https://image.tmdb.org/t/p/w500/"+currentItem.results)
-            .into(holder.image)
-        }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MoviesViewHolder {
+        val view =
+            LayoutInflater.from(context).inflate(R.layout.item_view, parent, false)
+        return MoviesViewHolder(view)
+    }
+
+    override fun onBindViewHolder(holder: MoviesViewHolder, position: Int) {
+        val movies = MoviesList[position]
+        holder.name.text=movies.title
+        Glide.with(context).load("https://image.tmdb.org/t/p/w500"+movies.poster_path).into(holder.poster)
+
+    }
 
     override fun getItemCount(): Int {
-        return movie.size
+        return MoviesList.size
     }
-class MyViewHolder(@NotNull itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var title = itemView.findViewById<TextView>(R.id.text)
-        var image=itemView.findViewById<ImageView>(R.id.image)
-    }
+
+
 }

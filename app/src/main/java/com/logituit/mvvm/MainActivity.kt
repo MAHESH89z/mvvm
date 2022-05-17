@@ -19,13 +19,13 @@ import com.logituit.mvvm.viewmodel.Myadapter
 class MainActivity : AppCompatActivity() {
     lateinit var mainViewModel: MainViewModel
     lateinit var newRecyclerView: RecyclerView
-    lateinit var newArrayList: ArrayList<QuoteList>
+    lateinit var newArrayList: ArrayList<Result>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val quoteService = RetrofitHelper.getInstance().create(QuoteService::class.java)
+        val quoteService = RetrofitHelper.moviesInstance
         val repository = QuoteRepository(quoteService)
 
         mainViewModel =
@@ -34,34 +34,14 @@ class MainActivity : AppCompatActivity() {
         mainViewModel.quotes.observe(this) { Log.d("MAHESH", it.results.toString()) }
         mainViewModel.quotes1.observe(this) { Log.d("AMRAVATI", it.results.toString()) }
 
-        newRecyclerView = findViewById(R.id.popularR)
-        newRecyclerView.layoutManager = LinearLayoutManager(this, RecyclerView.HORIZONTAL, false)
-        newRecyclerView.setHasFixedSize(true)
-        newArrayList = arrayListOf<QuoteList>()
         getUserdata()
     }
 
     private fun getUserdata() {
 
-        for (i in title.indices) {
-            val news = QuoteList(title[i].code,
-                listOf(Result(false,
-                    String(),
-                    Int.MIN_VALUE,
-                    String(),
-                    String(),
-                    String(),
-                    Double.MAX_VALUE,
-                    String(),
-                    String(),
-                    String(),
-                    false,
-                    Double.MAX_VALUE,
-                    Int.MAX_VALUE)),
-                title[i].code,
-                title[i].code)
-            newArrayList.add(news)
-            newRecyclerView.adapter = Myadapter(this,newArrayList)
+        newRecyclerView = findViewById(R.id.popularR)
+        newRecyclerView.layoutManager = LinearLayoutManager(this, RecyclerView.HORIZONTAL, false)
+        newRecyclerView.setHasFixedSize(true)
+        newArrayList = arrayListOf<Result>()
         }
     }
-}

@@ -14,15 +14,15 @@ class QuoteRepository(private val quoteService: QuoteService) {
     val quotes1: LiveData<QuoteList1>
         get() = quotesLiveData1
 
-    suspend fun getQuotes(api_key: Int) {
-        val result = quoteService.getQuotes(api_key)
+    suspend fun getQuotes(langauge:String,page:Int) {
+        val result = quoteService.getQuotes(langauge,page)
         if (result.body() != null) {
             quotesLiveData.postValue(result.body())
         }
     }
 
-    suspend fun getQuotes1(api_key: Int) {
-        val resultX = quoteService.getQuotes1(api_key)
+    suspend fun getQuotes1(langauge:String,page:Int) {
+        val resultX = quoteService.getQuotes1(langauge,page)
         if (resultX.body() != null) {
             quotesLiveData1.postValue(resultX.body())
         }

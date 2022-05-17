@@ -13,8 +13,8 @@ import kotlinx.coroutines.launch
 class MainViewModel(private val repository: QuoteRepository) : ViewModel() {
     init {
         viewModelScope.launch(Dispatchers.IO) {
-            repository.getQuotes(1)
-            repository.getQuotes1(1)
+            repository.getQuotes("en-US",1)
+            repository.getQuotes1("en-US",1)
         }
     }
 
